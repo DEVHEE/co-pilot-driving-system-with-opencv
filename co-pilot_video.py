@@ -8,7 +8,7 @@ model_type = ModelType.TUSIMPLE
 use_gpu = False
 
 # Initialize video
-cap = cv2.VideoCapture("vid/2-2.mp4")
+cap = cv2.VideoCapture("vid/1.mp4")
 
 # Initialize lane detection model
 laneDetector = LaneDetector(model_path, model_type, use_gpu)
