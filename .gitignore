@@ -1,0 +1,5 @@
+.idea
+.DS_Store
+_temp
+models/culane_18.pth
+models/tusimple_18.pth
