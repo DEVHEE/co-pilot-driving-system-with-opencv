@@ -6,9 +6,9 @@ from copilot.backbone import resnet
 
 class conv_bn_relu(torch.nn.Module):
     def __init__(self,in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, bias=False):
-        super(conv_bn_relu,self).__init__()
+        super(conv_bn_relu, self).__init__()
         self.conv = torch.nn.Conv2d(in_channels,out_channels, kernel_size, 
-            stride=stride, padding=padding, dilation=dilation,bias=bias)
+            stride=stride, padding=padding, dilation=dilation, bias=bias)
         self.bn = torch.nn.BatchNorm2d(out_channels)
         self.relu = torch.nn.ReLU()
 
@@ -69,7 +69,7 @@ class parsingNet(torch.nn.Module):
 
         self.pool = torch.nn.Conv2d(512, 8, 1) if backbone in ['34', '18'] else torch.nn.Conv2d(2048, 8, 1)
         # 1/32, 2048 channel
-        # 288,800 -> 9, 40, 2048
+        # 288, 800 -> 9, 40, 2048
         # (w+1) * sample_rows * 4
         # 37 * 10 * 4
         # initialize_weights(self.cls)
@@ -81,10 +81,10 @@ class parsingNet(torch.nn.Module):
         if self.use_aux:
             x2 = self.aux_header2(x2)
             x3 = self.aux_header3(x3)
-            x3 = torch.nn.functional.interpolate(x3,scale_factor=2, mode='bilinear')
+            x3 = torch.nn.functional.interpolate(x3, scale_factor=2, mode='bilinear')
             x4 = self.aux_header4(fea)
-            x4 = torch.nn.functional.interpolate(x4,scale_factor=4, mode='bilinear')
-            aux_seg = torch.cat([x2,x3,x4],dim=1)
+            x4 = torch.nn.functional.interpolate(x4, scale_factor=4, mode='bilinear')
+            aux_seg = torch.cat([x2, x3, x4],dim=1)
             aux_seg = self.aux_combine(aux_seg)
         else:
             aux_seg = None
@@ -119,7 +119,7 @@ def real_init_weights(m):
         elif isinstance(m, torch.nn.BatchNorm2d):
             torch.nn.init.constant_(m.weight, 1)
             torch.nn.init.constant_(m.bias, 0)
-        elif isinstance(m,torch.nn.Module):
+        elif isinstance(m, torch.nn.Module):
             for mini_m in m.children():
                 real_init_weights(mini_m)
         else:
