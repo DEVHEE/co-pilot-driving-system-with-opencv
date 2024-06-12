@@ -75,11 +75,14 @@ class LaneDetector():
             if torch.backends.mps.is_built():
                 net = net.to("mps")
                 state_dict = torch.load(model_path, map_location='mps')['model']  # Apple GPU
+                print("Using Apple GPU")
             else:
                 net = net.cuda()
                 state_dict = torch.load(model_path, map_location='cuda')['model']  # CUDA
+                print("Using CUDA")
         else:
             state_dict = torch.load(model_path, map_location='cpu')['model']  # CPU
+            print("Using CPU")
 
         compatible_state_dict = {}
         for k, v in state_dict.items():
@@ -195,6 +198,12 @@ class LaneDetector():
 
             cv2.fillPoly(lane_segment_img, pts=[np.vstack((lanes_points[1], np.flipud(lanes_points[2])))],
                          color=(0, 255, 0))
+            if lanes_points[0]:
+                cv2.fillPoly(lane_segment_img, pts=[np.vstack((lanes_points[0], np.flipud(lanes_points[1])))],
+                             color=(0, 0, 255))
+            if lanes_points[3]:
+                cv2.fillPoly(lane_segment_img, pts=[np.vstack((lanes_points[2], np.flipud(lanes_points[3])))],
+                             color=(0, 0, 255))
             visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
 
             # center middle white line
@@ -244,9 +253,21 @@ class LaneDetector():
                      [lane_point_12_x, lane_point_12_y + 15], (0, 255, 0), 3)
 
             if window_pt1_x - lane_point_12_x > 15:
-                text = "TURN LEFT"
+                if window_pt1_x - lane_point_12_x > 65:
+                    text = "CHANGING LANE"
+                    cv2.fillPoly(lane_segment_img, pts=[np.vstack((lanes_points[1], np.flipud(lanes_points[2])))],
+                                 color=(0, 255, 255))
+                    visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
+                else:
+                    text = "TURN LEFT"
             elif window_pt1_x - lane_point_12_x < -15:
-                text = "TURN RIGHT"
+                if window_pt1_x - lane_point_12_x < -65:
+                    text = "CHANGING LANE"
+                    cv2.fillPoly(lane_segment_img, pts=[np.vstack((lanes_points[1], np.flipud(lanes_points[2])))],
+                                 color=(0, 255, 255))
+                    visualization_img = cv2.addWeighted(visualization_img, 0.7, lane_segment_img, 0.3, 0)
+                else:
+                    text = "TURN RIGHT"
             else:
                 text = " STRAIGHT"
 

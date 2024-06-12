@@ -1,5 +1,4 @@
 import cv2
-from copilot.backbone import resnet
 from copilot import LaneDetector, ModelType
 
 

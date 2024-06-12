@@ -23,4 +23,4 @@ cv2.namedWindow("CO-PILOT IMAGE", cv2.WINDOW_NORMAL)
 cv2.imshow("CO-PILOT IMAGE", output_img)
 cv2.waitKey(0)
 
-cv2.imwrite("img/output.png",output_img)
+cv2.imwrite("img/output.png", output_img)
