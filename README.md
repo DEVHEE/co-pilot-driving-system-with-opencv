@@ -1,5 +1,7 @@
 <h1 align="center">🚗 Co-Pilot Driving System with OpenCV</h1>
 
+<h3 align="center"><strong>A system that senses the lanes and vehicles, to help control steering or V2V distance</strong></h3>
+
 ![main](https://raw.githubusercontent.com/DEVHEE/co-pilot-driving-system-with-opencv/main/readme/img/main.png)
 
 ---
