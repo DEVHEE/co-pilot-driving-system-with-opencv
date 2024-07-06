@@ -18,7 +18,7 @@ use_gpu = False
 carCascade = cv2.CascadeClassifier('haar-cascade/cars-2.xml')
 
 # Initialize video
-cap = cv2.VideoCapture("vid/1-2.mp4")
+cap = cv2.VideoCapture("vid/4.mp4")
 
 # Initialize lane detection model
 laneDetector = LaneDetector(model_path, model_type, use_gpu)
